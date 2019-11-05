@@ -55,6 +55,10 @@ class MainActivity : AppCompatActivity() {
         obs.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+        /**
+         * ver2
+         * Rx를 활용한 시계
+         */
         obs.subscribe { getClock() }
         obs.connect()
         Thread.sleep(4000)
@@ -73,6 +77,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * ver1
+     * Thread를 활용한 시계
+     */
     fun runningClock() {
         var thread = Thread(Runnable {
             while (true) {
