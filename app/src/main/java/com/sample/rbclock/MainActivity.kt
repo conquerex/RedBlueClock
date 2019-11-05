@@ -6,10 +6,10 @@ import android.os.Message
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
-import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
-import io.reactivex.functions.Function
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,10 +51,18 @@ class MainActivity : AppCompatActivity() {
             .take(6) // 10개만 발행
         val obs = timeSetting.publish()
 
+        // Schedulers을 통해 동작할 스레드 지정
+        obs.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
         obs.subscribe { getClock() }
         obs.connect()
         Thread.sleep(4000)
-//        obs.subscribe { t -> Log.d(TAG, "* * * " + t.toString()) }
+
+        // 1. onNext만 사용하는 경우
+        obs.subscribe { t -> Log.d(TAG, "* * * " + t.toString()) }
+
+        // 2. onNext, onError, onComplete 모두 사용하는 경우
         obs.subscribe(Consumer {
             Log.d(TAG, "* * * next :: " + it.toString())
         }, Consumer {
