@@ -7,6 +7,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
 import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
@@ -42,16 +44,24 @@ class MainActivity : AppCompatActivity() {
 //            .single(0)
 //            .subscribe { t -> Log.d(TAG, "* * * " + t.toString()) }
 
+        // Observable
         val timeSetting = Observable
             .interval(1000L, TimeUnit.MILLISECONDS) // 1초에 숫자를 하나씩 발행 (0, 1, 2...)
             .map { it.toInt() } // Long to Int
             .take(6) // 10개만 발행
-
         val obs = timeSetting.publish()
+
         obs.subscribe { getClock() }
         obs.connect()
         Thread.sleep(4000)
-        obs.subscribe { t -> Log.d(TAG, "* * * " + t.toString()) }
+//        obs.subscribe { t -> Log.d(TAG, "* * * " + t.toString()) }
+        obs.subscribe(Consumer {
+            Log.d(TAG, "* * * next :: " + it.toString())
+        }, Consumer {
+            Log.d(TAG, "* * * error :: " + it.toString())
+        }, Action {
+            Log.d(TAG, "* * * complete :: Done")
+        })
 
     }
 
