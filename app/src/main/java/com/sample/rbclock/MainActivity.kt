@@ -18,9 +18,9 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     val TAG: String = this.javaClass.simpleName
+    val dateFormat = SimpleDateFormat("HH:mm:ss")
 
     var clockHandler = ClockHandler()
-    var dateFormat = SimpleDateFormat("HH:mm:ss")
     var secFormat = SimpleDateFormat("ss")
     var time = ""
     var isRedColor = false
