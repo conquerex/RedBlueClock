@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
          */
         obs.subscribe { getClock() }
         obs.connect()
-        Thread.sleep(4000)
+        Thread.sleep(3000)
 
         // 1. onNext만 사용하는 경우
         obs.subscribe { t -> Log.d(TAG, "* * * " + t.toString()) }
