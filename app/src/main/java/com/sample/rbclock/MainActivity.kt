@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     var dateFormat = SimpleDateFormat("HH:mm:ss")
     var secFormat = SimpleDateFormat("ss")
     var time = ""
-    var redColor = false
+    var isRedColor = false
     var blueNumber = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,9 +96,9 @@ class MainActivity : AppCompatActivity() {
 
             // init : 짝수 파란색, 홀수 빨간색
             if (secFormat.format(Date(System.currentTimeMillis())).toInt() % 2 == blueNumber) {
-                redColor = false
+                isRedColor = false
             } else {
-                redColor = true
+                isRedColor = true
             }
 
             val message = clockHandler.obtainMessage()
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
     inner class ClockHandler : Handler() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if (redColor) {
+            if (isRedColor) {
                 textClock.setTextColor(resources.getColor(R.color.clockred, null))
             } else {
                 textClock.setTextColor(resources.getColor(R.color.clockblue, null))
